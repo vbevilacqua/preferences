@@ -17,3 +17,11 @@ Access the webpage from any browser:
 ```
     https://localhost:7122/swagger/
 ```
+
+## Using PgAdmin
+
+URL: http://localhost:5050/browser/
+
+Credentials:
+- User: admin@admin.com
+- Password: root

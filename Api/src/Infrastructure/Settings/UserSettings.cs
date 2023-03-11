@@ -12,6 +12,6 @@ namespace Infrastructure.Settings
         }
 
         // public string DbConnection => configuration["DbConnection"];
-        public string DbConnection => "User ID=root;Password=root;Host=localhost;Port=5432;Database=lego-user-permissions;Pooling=true;Include Error Detail=True;";
+        public string DbConnection => "User ID=root;Password=root;Host=localhost;Port=5432;Database=preferences;Pooling=true;Include Error Detail=True;";
     }
 }
