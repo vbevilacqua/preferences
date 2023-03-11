@@ -1,13 +1,11 @@
-﻿namespace Application.Solutions.Commands
-{
-    using System;
-    using System.Threading.Tasks;
-    using Application.Solutions.Queries;
-    using AutoMapper;
-    using MediatR;
-    using TanvirArjel.EFCore.GenericRepository;
-    using Domain.Entities;
+﻿using Application.Solutions.Queries;
+using AutoMapper;
+using Domain.Entities;
+using MediatR;
+using TanvirArjel.EFCore.GenericRepository;
 
+namespace Application.Solutions.Commands
+{
     public class CreateSolutionCommand : IRequest<SolutionResponse>
     {
         public string Name { get; set; } = string.Empty;

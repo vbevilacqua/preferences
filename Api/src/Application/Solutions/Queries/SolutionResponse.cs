@@ -1,11 +1,9 @@
-﻿namespace Application.Solutions.Queries
-{
-    using System;
-    using System.Collections.Generic;
-    using Application.Mappings;
-    using Application.SolutionsPreferences.Queries;
-    using Domain.Entities;
+﻿using Application.Mappings;
+using Application.SolutionsPreferences.Queries;
+using Domain.Entities;
 
+namespace Application.Solutions.Queries
+{
     public class SolutionResponse : IMapFrom<Solution>
     {
         public int Id { get; set; }

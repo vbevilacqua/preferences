@@ -1,16 +1,13 @@
-﻿namespace Application.SolutionsPreferences.Commands
-{
-    using System;
-    using System.Threading.Tasks;
-    using Application.Solutions.Queries;
-    using AutoMapper;
-    using MediatR;
-    using TanvirArjel.EFCore.GenericRepository;
-    using Domain.Entities;
-    using System.Text.Json.Serialization;
-    using Microsoft.EntityFrameworkCore;
-    using Domain.Exceptions;
+﻿using System.Text.Json.Serialization;
+using Application.Solutions.Queries;
+using AutoMapper;
+using Domain.Entities;
+using Domain.Exceptions;
+using MediatR;
+using TanvirArjel.EFCore.GenericRepository;
 
+namespace Application.SolutionsPreferences.Commands
+{
     public class UpsertPreferencesToSolutionCommand : IRequest<SolutionResponse>
     {
         [JsonIgnore]

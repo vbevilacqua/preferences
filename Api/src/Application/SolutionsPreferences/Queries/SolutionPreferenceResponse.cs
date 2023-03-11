@@ -1,8 +1,8 @@
-﻿namespace Application.SolutionsPreferences.Queries
-{
-    using Application.Mappings;
-    using Domain.Entities;
+﻿using Application.Mappings;
+using Domain.Entities;
 
+namespace Application.SolutionsPreferences.Queries
+{
     public class SolutionPreferenceResponse : IMapFrom<SolutionPreference>
     {
         public int Id { get; set; }

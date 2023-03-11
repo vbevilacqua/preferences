@@ -1,6 +1,4 @@
-﻿using Application.Users.Queries;
-
-namespace Api.Controllers
+﻿namespace Api.Controllers
 {
     using Application.Solutions.Commands;
     using Application.Solutions.Queries;

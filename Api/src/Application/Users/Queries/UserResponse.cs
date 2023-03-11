@@ -1,10 +1,8 @@
+using Application.Mappings;
+using Domain.Entities;
+
 namespace Application.Users.Queries
 {
-    using System;
-    using System.Collections.Generic;
-    using Mappings;
-    using Domain.Entities;
-    
     public class UserResponse : IMapFrom<User>
     {
         public int Id { get; set; }

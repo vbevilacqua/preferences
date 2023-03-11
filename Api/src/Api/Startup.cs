@@ -1,8 +1,7 @@
 using Application;
-using MediatR;
-using TanvirArjel.EFCore.GenericRepository;
-using Infrastructure.Settings;
 using Infrastructure.Persistence;
+using Infrastructure.Settings;
+using TanvirArjel.EFCore.GenericRepository;
 
 namespace Api
 {

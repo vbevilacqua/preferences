@@ -1,10 +1,8 @@
-﻿namespace Application.Mappings
-{
-    using System;
-    using System.Linq;
-    using System.Reflection;
-    using AutoMapper;
+﻿using System.Reflection;
+using AutoMapper;
 
+namespace Application.Mappings
+{
     // auto map all assemblies of the project.
     public class MappingProfile : Profile
     {

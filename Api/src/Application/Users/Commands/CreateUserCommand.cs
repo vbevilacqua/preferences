@@ -1,4 +1,3 @@
-using Application.Solutions.Commands;
 using Application.Users.Queries;
 using AutoMapper;
 using Domain.Entities;
