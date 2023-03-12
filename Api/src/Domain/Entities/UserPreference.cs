@@ -5,12 +5,15 @@ namespace Domain.Entities
 {
     public class UserPreference
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
+
+        public virtual Int32 UserId { get; set; }
+
+        public virtual Int32 SolutionId { get; set; }
+
         public string Value { get; set; } = string.Empty;
-        public virtual User User { get; set; }
-        public virtual Solution Solution { get; set; }
+
+        public bool IsActive { get; set; }
+
     }
 }

@@ -9,37 +9,19 @@ namespace Infrastructure.Persistence
             // Seed, if necessary
             if (!context.UniversalPreferences.Any())
             {
-                context.UniversalPreferences.Add(new UniversalPreference
-                {
-                    Name = "User Consent",
-                    Value = "True",
-                    IsActive = true,
-                    CreatedDate = DateTime.UtcNow
-                });
-                context.UniversalPreferences.Add(new UniversalPreference
-                {
-                    Name = "Newsletter",
-                    Value = "False",
-                    IsActive = true,
-                    CreatedDate = DateTime.UtcNow
-                });
-
-                await context.SaveChangesAsync();
-            }
-
-            if (!context.SolutionPreferences.Any())
-            {
-                context.SolutionPreferences.Add(new SolutionPreference
+                context.UniversalPreferences.Add(new GlobalPreference
                 {
                     Name = "Dark Mode",
                     Value = "True",
-                    IsActive = true
+                    IsActive = true,
+                    CreatedDate = DateTime.UtcNow
                 });
-                context.SolutionPreferences.Add(new SolutionPreference
+                context.UniversalPreferences.Add(new GlobalPreference
                 {
                     Name = "Default Settings",
-                    Value = "True",
-                    IsActive = true
+                    Value = "False",
+                    IsActive = true,
+                    CreatedDate = DateTime.UtcNow
                 });
 
                 await context.SaveChangesAsync();
@@ -54,6 +36,25 @@ namespace Infrastructure.Persistence
                 await context.SaveChangesAsync();
             }
 
+            if (!context.SolutionPreferences.Any())
+            {
+                context.SolutionPreferences.Add(new SolutionPreference
+                {
+                    Name = "Dark Mode",
+                    Value = "True",
+                    IsActive = true,
+                    SolutionId = 1
+                });
+                context.SolutionPreferences.Add(new SolutionPreference
+                {
+                    Name = "Default Settings",
+                    Value = "True",
+                    IsActive = true,
+                    SolutionId = 1
+                });
+
+                await context.SaveChangesAsync();
+            }
         }
     }
 }

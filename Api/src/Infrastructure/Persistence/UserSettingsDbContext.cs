@@ -1,5 +1,5 @@
+using Domain.Common;
 using Domain.Entities;
-using Infrastructure.Settings;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence
@@ -11,7 +11,6 @@ namespace Infrastructure.Persistence
         public UserSettingsDbContext(ISettings settings)
         {
             this.settings = settings;
-            Database.SetConnectionString(settings.DbConnection);
             Database.EnsureCreated();
         }
 
@@ -23,8 +22,14 @@ namespace Infrastructure.Persistence
 
         public DbSet<Solution> Solutions { get; set; } = null!;
         public DbSet<SolutionPreference> SolutionPreferences { get; set; } = null!;
-        public DbSet<UniversalPreference> UniversalPreferences { get; set; } = null!;
+        public DbSet<GlobalPreference> UniversalPreferences { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<UserPreference> UserPreferences { get; set; } = null!;
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SolutionPreference>().HasKey(m => new { m.Name, m.SolutionId });
+            modelBuilder.Entity<UserPreference>().HasKey(m => new { m.Name, m.UserId, m.SolutionId });
+        }
     }
 }

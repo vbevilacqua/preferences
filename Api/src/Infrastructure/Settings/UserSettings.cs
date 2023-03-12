@@ -1,3 +1,4 @@
+using Domain.Common;
 using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Settings

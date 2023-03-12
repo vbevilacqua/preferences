@@ -15,19 +15,39 @@ namespace Api.Controllers
         {
             return Ok(await this.Mediator.Send(command));
         }
-        
+
+        [HttpPost("{userId}/solutions/{solutionId}/preferences")]
+        public async Task<ActionResult<UserResponse>> CreateUserPreferencesAsync([FromRoute] Int32 userId, [FromRoute] Int32 solutionId, UpsertPreferencesToUserCommand command)
+        {
+            command.UserId = userId;
+            command.SolutionId = solutionId;
+            try
+            {
+                return Ok(await this.Mediator.Send(command));
+            }
+            catch (GlobalPreferenceDoesNotExist ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidIdException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpGet]
         public async Task<ActionResult<UserResponse>> GetUsersAsync()
         {
             return Ok(await Mediator.Send(new GetAllUsersQuery()));
         }
-        
+
         [HttpGet("{userId})")]
         public async Task<ActionResult<UserResponse>> GetUserByIdAsync([FromRoute] Int32 userId)
         {
+            // TODO: create specific query.
             return Ok(await Mediator.Send(new GetAllUsersQuery() { UserId = userId }));
         }
-        
+
 
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, UpdateUserCommand command)
@@ -50,14 +70,14 @@ namespace Api.Controllers
             try
             {
                 await Mediator.Send(new DeleteUserCommand { Id = id });
-        
+
                 return NoContent();
             }
             catch (NotFoundException ex)
             {
                 return BadRequest(ex.Message);
             }
-            
+
         }
     }
 }

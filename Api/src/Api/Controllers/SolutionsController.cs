@@ -15,7 +15,8 @@
         {
             return Ok(await this.Mediator.Send(command));
         }
-
+        
+        // TODO: For solutions that doesn't have a preference, then global ones will be added as solution preferences.
         [HttpPost("{solutionId}/preferences")]
         public async Task<ActionResult<SolutionResponse>> CreateSolutionPreferencesAsync([FromRoute] Int32 solutionId, UpsertPreferencesToSolutionCommand command)
         {
@@ -24,31 +25,36 @@
             {
                 return Ok(await this.Mediator.Send(command));
             }
+            catch (GlobalPreferenceDoesNotExist ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (InvalidIdException ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-        
+
         [HttpGet]
         public async Task<ActionResult<SolutionResponse>> GetSolutionsAsync()
         {
             return Ok(await Mediator.Send(new GetAllSolutionsQuery()));
         }
-        
+
         [HttpGet("{solutionId})")]
         public async Task<ActionResult<SolutionResponse>> GetSolutionByIdAsync([FromRoute] Int32 solutionId)
         {
+            // TODO: Create a specific query.
             return Ok(await Mediator.Send(new GetAllSolutionsQuery() { SolutionId = solutionId }));
         }
-        
+
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, UpdateSolutionCommand command)
         {
             try
             {
+                // TODO: Return solution response
                 await Mediator.Send(new UpdateSolutionCommand { Id = id, Name = command.Name });
-
                 return NoContent();
             }
             catch (NotFoundException ex)
@@ -63,14 +69,14 @@
             try
             {
                 await Mediator.Send(new DeleteSolutionCommand { Id = id });
-        
+
                 return NoContent();
             }
             catch (NotFoundException ex)
             {
                 return BadRequest(ex.Message);
             }
-            
+
         }
     }
 }
