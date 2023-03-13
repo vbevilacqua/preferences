@@ -2,9 +2,9 @@ using Domain.Entities;
 
 namespace Infrastructure.Persistence
 {
-    public class UserSettingsDbContextSeed
+    public class PreferencesDbContextSeed
     {
-        public static async Task SeedSampleDataAsync(UserSettingsDbContext context)
+        public static async Task SeedSampleDataAsync(PreferencesDbContext context)
         {
             // Seed, if necessary
             if (!context.UniversalPreferences.Any())
@@ -19,6 +19,13 @@ namespace Infrastructure.Persistence
                 context.UniversalPreferences.Add(new GlobalPreference
                 {
                     Name = "Default Settings",
+                    Value = "False",
+                    IsActive = true,
+                    CreatedDate = DateTime.UtcNow
+                });
+                context.UniversalPreferences.Add(new GlobalPreference
+                {
+                    Name = "Newsletter",
                     Value = "False",
                     IsActive = true,
                     CreatedDate = DateTime.UtcNow
@@ -43,15 +50,31 @@ namespace Infrastructure.Persistence
                     Name = "Dark Mode",
                     Value = "True",
                     IsActive = true,
-                    SolutionId = 1
+                    SolutionId = 2
                 });
                 context.SolutionPreferences.Add(new SolutionPreference
                 {
                     Name = "Default Settings",
                     Value = "True",
                     IsActive = true,
-                    SolutionId = 1
+                    SolutionId = 2
                 });
+
+                await context.SaveChangesAsync();
+            }
+            
+            if (!context.Users.Any())
+            {
+                context.Users.Add(new User { Name = "User A", Email = "test@test.com", CreatedDate = DateTime.UtcNow });
+                context.Users.Add(new User { Name = "User B", Email = "test@test.com", CreatedDate = DateTime.UtcNow });
+
+                await context.SaveChangesAsync();
+            }
+            
+            if (!context.UserPreferences.Any())
+            {
+                context.UserPreferences.Add(new UserPreference { Name = "Dark Mode", UserId = 1, SolutionId = 1, Value = "False" });
+                context.UserPreferences.Add(new UserPreference { Name = "Default Settings", UserId = 1, SolutionId = 1, Value = "True" });
 
                 await context.SaveChangesAsync();
             }

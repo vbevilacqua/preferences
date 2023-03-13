@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence
 {
-    public class UserSettingsDbContext : DbContext
+    public class PreferencesDbContext : DbContext
     {
         private readonly ISettings settings;
 
-        public UserSettingsDbContext(ISettings settings)
+        public PreferencesDbContext(ISettings settings)
         {
             this.settings = settings;
             Database.EnsureCreated();
