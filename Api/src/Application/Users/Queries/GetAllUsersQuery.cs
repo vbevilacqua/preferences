@@ -1,6 +1,7 @@
 using AutoMapper;
 using Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TanvirArjel.EFCore.GenericRepository;
 
 namespace Application.Users.Queries
@@ -23,17 +24,10 @@ namespace Application.Users.Queries
 
         public async Task<IEnumerable<UserResponse>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
-            if (request.UserId == null)
-            {
-                var result = await _repository.GetListAsync<User>();
-                return _mapper.Map<IEnumerable<UserResponse>>(result);              
-            }
-            else
-            {
-                var result = new List<User>();
-                result.Add(await _repository.GetByIdAsync<User>(request.UserId));
-                return _mapper.Map<IEnumerable<UserResponse>>(result);
-            }
+            var specification = new Specification<User>();
+            specification.Includes = ep => ep.Include(e => e.UserPreferences);
+            var result = await _repository.GetListAsync<User>(specification, cancellationToken);
+            return _mapper.Map<IEnumerable<UserResponse>>(result);
         }
     }
 }
