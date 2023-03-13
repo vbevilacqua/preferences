@@ -1,4 +1,5 @@
-﻿using Application.Users.Commands;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Application.Users.Commands;
 using Application.Users.Queries;
 using Domain.Exceptions;
 
@@ -41,11 +42,10 @@ namespace Api.Controllers
             return Ok(await Mediator.Send(new GetAllUsersQuery()));
         }
 
-        [HttpGet("{userId})")]
+        [HttpGet("{userId}")]
         public async Task<ActionResult<UserResponse>> GetUserByIdAsync([FromRoute] Int32 userId)
         {
-            // TODO: create specific query.
-            return Ok(await Mediator.Send(new GetAllUsersQuery() { UserId = userId }));
+            return Ok(await Mediator.Send(new GetUserByIdQuery() { UserId = userId }));
         }
 
 
@@ -77,7 +77,6 @@ namespace Api.Controllers
             {
                 return BadRequest(ex.Message);
             }
-
         }
     }
 }

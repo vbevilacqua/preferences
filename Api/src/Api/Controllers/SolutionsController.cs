@@ -41,11 +41,10 @@
             return Ok(await Mediator.Send(new GetAllSolutionsQuery()));
         }
 
-        [HttpGet("{solutionId})")]
-        public async Task<ActionResult<SolutionResponse>> GetSolutionByIdAsync([FromRoute] Int32 solutionId)
+        [HttpGet("{solutionId}")]
+        public async Task<ActionResult<SolutionResponse>> GetSolutionByIdAsync([FromRoute] int solutionId)
         {
-            // TODO: Create a specific query.
-            return Ok(await Mediator.Send(new GetAllSolutionsQuery() { SolutionId = solutionId }));
+            return Ok(await Mediator.Send(new GetSolutionByIdQuery() { SolutionId = solutionId }));
         }
 
         [HttpPut("{id}")]
