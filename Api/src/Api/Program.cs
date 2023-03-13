@@ -14,20 +14,17 @@ namespace Api
 
                 try
                 {
-                    var context = services.GetRequiredService<UserSettingsDbContext>();
-                    context.Database.EnsureCreated();
-                    await UserSettingsDbContextSeed.SeedSampleDataAsync(context);
+                    var context = services.GetRequiredService<PreferencesDbContext>();
+                    await context.Database.EnsureCreatedAsync();
+                    await PreferencesDbContextSeed.SeedSampleDataAsync(context);
                 }
                 catch (Exception ex)
                 {
                     var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
-
                     logger.LogError(ex, "An error occurred while migrating or seeding the database.");
-
                     throw;
                 }
             }
-
             await host.RunAsync();
         }
 

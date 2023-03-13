@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Application.GlobalPreferences.Services;
 using Application.Users.Queries;
 using AutoMapper;
 using Domain.Entities;
@@ -23,11 +24,13 @@ namespace Application.Users.Commands
     {
         private readonly IRepository _repository;
         private readonly IMapper _mapper;
+        private readonly IGlobalPreferencesService _globalPreferencesService;
 
-        public UpsertPreferencesToUserCommandHandler(IRepository repository, IMapper mapper)
+        public UpsertPreferencesToUserCommandHandler(IRepository repository, IMapper mapper, IGlobalPreferencesService globalPreferencesService)
         {
             _repository = repository;
             _mapper = mapper;
+            _globalPreferencesService = globalPreferencesService;
         }
 
         public async Task<UserResponse> Handle(UpsertPreferencesToUserCommand request, CancellationToken cancellationToken)
@@ -43,6 +46,12 @@ namespace Application.Users.Commands
 
             foreach (var command in request.UserPreferences)
             {
+                var globalPreference = await _globalPreferencesService.GetByNameAsync(command.Name);
+                if (globalPreference == null)
+                {
+                    throw new GlobalPreferenceDoesNotExist($"The solution preference {command.Name} must to be added for global first.");
+                }
+                
                 var preference = new UserPreference
                 {
                     Name = command.Name,
@@ -80,17 +89,5 @@ namespace Application.Users.Commands
 
             return user;
         }
-
-        // private static void ValidateUpsertIds(UpsertPreferencesToUserCommand request, User user)
-        // {
-        //     var allIds = request.UserPreferences.Where(p => p.Id != null).Select(p => p.Id);
-        //     var invalidIds = allIds.Where(id => !user.UserPreferences.Any(dbPreference => dbPreference.Name == id.Name));
-        //
-        //     if (invalidIds.Any())
-        //     {
-        //         string friendlyAllIds = string.Join(",", invalidIds.Select(id => id.Value));
-        //         throw new InvalidIdException($"These preferences {friendlyAllIds} aren't present on the database.");
-        //     }
-        // }
     }
 }
