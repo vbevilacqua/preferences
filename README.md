@@ -18,6 +18,10 @@ Access the webpage from any browser:
     https://localhost:7122/swagger/
 ```
 
+All documentation necessary for the endpoints should be in the swagger page.
+
+![alt text](https://github.com/vbevilacqua/preferences/blob/main/assets/swagger.png?raw=true)
+
 ## Using PgAdmin
 
 URL: http://localhost:5050/browser/
@@ -28,8 +32,11 @@ Credentials:
   Architecture
 
 
-## Architecture
+## Clean Architecture
 The architecture is simple, the client sends a message to controllers and the controllers uses a Postgre database to persist data.
+
+![alt text](https://github.com/vbevilacqua/preferences/blob/main/assets/cleanArchitecture.jpg?raw=true)
+
 
 ### Domain
 
@@ -46,6 +53,9 @@ This layer contains classes for accessing external resources such as file system
 ### webapi
 
 This layer is a webapi that allow clients to call rest endpoints. This layer depends on both the Application and Infrastructure layers, however, the dependency on Infrastructure is only to support dependency injection. Therefore only Startup.cs should reference Infrastructure.
+
+
+
 
 
 ## Next Steps
