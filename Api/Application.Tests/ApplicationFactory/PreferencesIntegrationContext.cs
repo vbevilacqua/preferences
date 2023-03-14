@@ -12,9 +12,8 @@
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseInMemoryDatabase(databaseName: "preferences");
+            optionsBuilder.UseInMemoryDatabase(databaseName: "preferences1");
 
         }
-
     }
 }

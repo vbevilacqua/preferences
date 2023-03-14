@@ -8,7 +8,6 @@ namespace Application.Users.Queries
 {
     public class GetAllUsersQuery : IRequest<IEnumerable<UserResponse>>
     {
-        public Int32? UserId { get; set; }
     }
 
     public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<UserResponse>>

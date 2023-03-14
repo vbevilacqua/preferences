@@ -11,7 +11,6 @@ namespace Infrastructure.Persistence
         public PreferencesDbContext(ISettings settings)
         {
             this.settings = settings;
-            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

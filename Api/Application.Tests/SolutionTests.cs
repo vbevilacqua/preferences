@@ -175,25 +175,16 @@ namespace Api.Tests
             var firstSolution = solutions.First();
 
             // Act
-            var solutionResponse = await client.DeleteAsync($"api/solutions/{firstSolution.Id}");
+            var solutionResponse = await client.DeleteAsyncWithHeader($"api/solutions/{firstSolution.Id}");
 
             // Assert
             solutionResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
         }
-
-        private async Task<IEnumerable<SolutionResponse>> GetAllSolutionsAsync(HttpClient client)
-        {
-            var response = await client.GetStringAsync($"api/solutions");
-            var solutions = JsonConvert.DeserializeObject<IEnumerable<SolutionResponse>>(response);
-            return solutions;
-        }
         
-        private async Task<SolutionResponse> GetSolutionByIdAsync(HttpClient client, int solutionId)
-        {
-            var response = await client.GetStringAsync($"api/solutions/{solutionId}");
-            var solution = JsonConvert.DeserializeObject<SolutionResponse>(response);
-            return solution;
-        }
+        private Task<IEnumerable<SolutionResponse>> GetAllSolutionsAsync(HttpClient client) => client.GetAsync<IEnumerable<SolutionResponse>>($"api/solutions");
+
+        private Task<SolutionResponse> GetSolutionByIdAsync(HttpClient client, int userId) => client.GetAsync<SolutionResponse>($"api/solutions/{userId}");
+
         
         private async Task<SolutionResponse> CreateSolutionAsync(HttpClient client, CreateSolutionCommand command)
         {
