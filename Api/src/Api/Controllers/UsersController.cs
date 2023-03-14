@@ -2,6 +2,7 @@
 using Application.Users.Commands;
 using Application.Users.Queries;
 using Domain.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
@@ -11,12 +12,14 @@ namespace Api.Controllers
     [ApiController]
     public class UsersController : ApiControllerBase
     {
+        [Authorize("write:user")]
         [HttpPost]
         public async Task<ActionResult<UserResponse>> CreateUserAsync(CreateUserCommand command)
         {
             return Ok(await this.Mediator.Send(command));
         }
 
+        [Authorize("write:user")]
         [HttpPost("{userId}/solutions/{solutionId}/preferences")]
         public async Task<ActionResult<UserResponse>> CreateUserPreferencesAsync([FromRoute] Int32 userId, [FromRoute] Int32 solutionId, UpsertPreferencesToUserCommand command)
         {
@@ -36,12 +39,14 @@ namespace Api.Controllers
             }
         }
 
+        [Authorize("read:user")]
         [HttpGet]
         public async Task<ActionResult<UserResponse>> GetUsersAsync()
         {
             return Ok(await Mediator.Send(new GetAllUsersQuery()));
         }
 
+        [Authorize("read:user")]
         [HttpGet("{userId}")]
         public async Task<ActionResult<UserResponse>> GetUserByIdAsync([FromRoute] Int32 userId)
         {
@@ -49,6 +54,7 @@ namespace Api.Controllers
         }
 
 
+        [Authorize("write:user")]
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(int id, UpdateUserCommand command)
         {
@@ -64,6 +70,7 @@ namespace Api.Controllers
             }
         }
 
+        [Authorize("write:user")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {

@@ -1,16 +1,21 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using Api.Auth0;
+using Api.StartupServices;
+using Api.Swagger;
 using Application;
 using Domain.Common;
 using Infrastructure.Persistence;
 using Infrastructure.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
 using TanvirArjel.EFCore.GenericRepository;
 
 namespace Api
 {
     public class Startup
     {
-        private static string Auth0Domain  = string.Empty;
-        private static string Auth0Audience = string.Empty;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,62 +34,69 @@ namespace Api
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-            app.UseRouting();
+            var scope = app.ApplicationServices.CreateScope();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-
-            });
-
-            //Auth0
-            app.UseAuthentication();
-            app.UseAuthorization();
+            app
+                .UseSwaggerFeatures(Configuration, env)
+                .UseAuthentication()
+                .UseRouting()
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                    endpoints.MapHealthChecks("/health");
+                    endpoints.MapFallback(() => Results.Redirect("/swagger"));
+                });
         }
 
         public static void InitServices(IServiceCollection services)
         {
             // Register all mediator dependencies.
             services.AddApplication();
+            services.AddHealthChecks();
+            services.AddCustomApiVersioning()
+                    .AddSwaggerFeatures()
+                    .AddHttpContextAccessor();
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
-            services.AddMemoryCache();
             services.AddHttpClient();
             services.AddSingleton<ISettings, UserSettings>();
+            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
             services.AddGenericRepository<PreferencesDbContext>();
             services.AddQueryRepository<PreferencesDbContext>();
         }
 
-        public static void InitAuth0(IServiceCollection services)
+        public void InitAuth0(IServiceCollection services)
         {
+            services.AddMvcCore(options => { options.AddBaseAuthorizationFilters(Configuration); }).AddApiExplorer();
+
+            // JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, c =>
+                .AddJwtBearer(options =>
                 {
-                    // TODO: Remove hardcoded auth0 settings
-                    c.Authority = $"https://preferences.test.com";
-                    c.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                    options.Authority = Configuration.GetValue<string>("Authentication:Authority");
+                    options.Audience = Configuration.GetValue<string>("Authentication:ApiName");
+                    options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidAudience = "https://localhost:7122",
-                        ValidIssuer = "https://preferences.test.com"
+                        NameClaimType = ClaimTypes.NameIdentifier
                     };
                 });
-
-            services.AddAuthorization(o =>
+            
+            var domain = Configuration.GetValue<string>("Authentication:Authority"); 
+            services.AddAuthorization(options =>
             {
-                o.AddPolicy("admin:read-write", p => p.
-                    RequireAuthenticatedUser().
-                    RequireClaim("permissions", "admin:read-write"));
-                o.AddPolicy("manager:read-write", p => p.
-                    RequireAuthenticatedUser().
-                    RequireClaim("permissions", "manager:read-write"));
-                o.AddPolicy("user:read-write", p => p.
-                    RequireAuthenticatedUser().
-                    RequireClaim("permissions", "user:read-write"));
-            });
+                options.AddPolicy("read:solution", policy => policy.Requirements.Add(new 
+                    HasScopeRequirement("read:solution", domain)));
+                options.AddPolicy("write:solution", policy => policy.Requirements.Add(new 
+                    HasScopeRequirement("write:solution", domain)));
+                options.AddPolicy("read:user", policy => policy.Requirements.Add(new 
+                    HasScopeRequirement("read:user", domain))); 
+                options.AddPolicy("write:user", policy => policy.Requirements.Add(new 
+                    HasScopeRequirement("write:user", domain))); 
+                
+        });
         }
 
         public static void InitContext(IServiceCollection services)
