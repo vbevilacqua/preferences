@@ -28,7 +28,7 @@ namespace Api
         {
             InitServices(services);
             InitContext(services);
-            InitAuth0(services);
+            // InitAuth0(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,7 +40,7 @@ namespace Api
                 .UseSwaggerFeatures(Configuration, env)
                 .UseAuthentication()
                 .UseRouting()
-                .UseAuthorization()
+                // .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();
@@ -62,7 +62,7 @@ namespace Api
             services.AddEndpointsApiExplorer();
             services.AddHttpClient();
             services.AddSingleton<ISettings, UserSettings>();
-            services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
+            // services.AddSingleton<IAuthorizationHandler, HasScopeHandler>();
             services.AddGenericRepository<PreferencesDbContext>();
             services.AddQueryRepository<PreferencesDbContext>();
         }
@@ -70,8 +70,6 @@ namespace Api
         public void InitAuth0(IServiceCollection services)
         {
             services.AddMvcCore(options => { options.AddBaseAuthorizationFilters(Configuration); }).AddApiExplorer();
-
-            // JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -95,6 +93,10 @@ namespace Api
                     HasScopeRequirement("read:user", domain))); 
                 options.AddPolicy("write:user", policy => policy.Requirements.Add(new 
                     HasScopeRequirement("write:user", domain))); 
+                options.AddPolicy("read:preference", policy => policy.Requirements.Add(new 
+                    HasScopeRequirement("read:preference", domain))); 
+                options.AddPolicy("write:preference", policy => policy.Requirements.Add(new 
+                    HasScopeRequirement("write:preference", domain))); 
                 
         });
         }

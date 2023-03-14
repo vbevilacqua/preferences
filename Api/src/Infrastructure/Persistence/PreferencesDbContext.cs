@@ -22,7 +22,7 @@ namespace Infrastructure.Persistence
 
         public DbSet<Solution> Solutions { get; set; } = null!;
         public DbSet<SolutionPreference> SolutionPreferences { get; set; } = null!;
-        public DbSet<GlobalPreference> UniversalPreferences { get; set; } = null!;
+        public DbSet<GlobalPreference> GlobalPreferences { get; set; } = null!;
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<UserPreference> UserPreferences { get; set; } = null!;
 

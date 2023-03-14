@@ -7,25 +7,25 @@ namespace Infrastructure.Persistence
         public static async Task SeedSampleDataAsync(PreferencesDbContext context)
         {
             // Seed, if necessary
-            if (!context.UniversalPreferences.Any())
+            if (!context.GlobalPreferences.Any())
             {
-                context.UniversalPreferences.Add(new GlobalPreference
+                context.GlobalPreferences.Add(new GlobalPreference
                 {
-                    Name = "Dark Mode",
+                    Name = "Newsletter",
                     Value = "True",
                     IsActive = true,
                     CreatedDate = DateTime.UtcNow
                 });
-                context.UniversalPreferences.Add(new GlobalPreference
+                context.GlobalPreferences.Add(new GlobalPreference
                 {
                     Name = "Default Settings",
                     Value = "False",
                     IsActive = true,
                     CreatedDate = DateTime.UtcNow
                 });
-                context.UniversalPreferences.Add(new GlobalPreference
+                context.GlobalPreferences.Add(new GlobalPreference
                 {
-                    Name = "Newsletter",
+                    Name = "Dark Mode",
                     Value = "False",
                     IsActive = true,
                     CreatedDate = DateTime.UtcNow

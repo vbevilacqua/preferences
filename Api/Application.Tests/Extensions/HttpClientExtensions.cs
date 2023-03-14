@@ -22,5 +22,21 @@
                 throw new ApiException(response.StatusCode, "Error");
             }
         }
+        
+        public static async Task<K> PutAsync<T, K>(this HttpClient client, string url, T data) where K : class
+        {
+            var json = JsonConvert.SerializeObject(data);
+            var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+            var response = await client.PutAsync(url, stringContent);
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<K>(result);
+            }
+            else
+            {
+                throw new ApiException(response.StatusCode, "Error");
+            }
+        }
     }
 }
