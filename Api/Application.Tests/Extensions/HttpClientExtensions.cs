@@ -1,12 +1,10 @@
-﻿namespace Api.Tests.Extensions
-{
-    using System.Net.Http.Headers;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Api.Tests.ApplicationFactory;
-    using Microsoft.AspNetCore.Http;
-    using Newtonsoft.Json;
+﻿using System.Net.Http.Headers;
+using System.Text;
+using Api.Tests.ApplicationFactory;
+using Newtonsoft.Json;
 
+namespace Api.Tests.Extensions
+{
     public static class HttpClientExtensions
     {
         public static async Task<K> PostAsync<T, K>(this HttpClient client, string url, T data) where K : class

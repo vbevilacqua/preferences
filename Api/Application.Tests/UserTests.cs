@@ -1,15 +1,14 @@
+using System.Net;
+using Api.Tests.ApplicationFactory;
+using Api.Tests.Extensions;
+using Api.Tests.Helpers;
+using Application.Users.Commands;
+using Application.Users.Queries;
+using Domain.Exceptions;
+using FluentAssertions;
+
 namespace Api.Tests
 {
-    using System.Net;
-    using Api;
-    using Api.Tests.ApplicationFactory;
-    using Api.Tests.Extensions;
-    using Api.Tests.Helpers;
-    using Application.Users.Commands;
-    using Application.Users.Queries;
-    using Domain.Exceptions;
-    using FluentAssertions;
-
     [TestCaseOrderer("Api.Tests.Helpers.PriorityOrderer", "Api.Tests")]
     public class UserTests : IClassFixture<PreferencesWebApplicationFactory<Program>>, IAsyncLifetime
     {

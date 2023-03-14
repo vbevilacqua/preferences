@@ -1,22 +1,18 @@
-using System.Net.Http.Headers;
+using System.Net;
+using Api.Tests.ApplicationFactory;
+using Api.Tests.Extensions;
+using Api.Tests.Helpers;
+using Application.Solutions.Commands;
+using Application.Solutions.Queries;
+using Application.SolutionsPreferences.Commands;
 using Auth0.AuthenticationApi;
 using Auth0.AuthenticationApi.Models;
+using Domain.Exceptions;
+using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 
 namespace Api.Tests
 {
-    using Application.Solutions.Commands;
-    using Api;
-    using Api.Tests.ApplicationFactory;
-    using Application.Solutions.Queries;
-    using Application.SolutionsPreferences.Commands;
-    using FluentAssertions;
-    using Newtonsoft.Json;
-    using Api.Tests.Extensions;
-    using System.Net;
-    using Api.Tests.Helpers;
-    using Domain.Exceptions;
-
     [TestCaseOrderer("Api.Tests.Helpers.PriorityOrderer", "Api.Tests")]
     public class SolutionTests : IClassFixture<PreferencesWebApplicationFactory<Program>>
     {

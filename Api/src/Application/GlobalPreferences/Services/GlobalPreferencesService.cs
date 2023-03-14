@@ -1,9 +1,8 @@
-﻿namespace Application.GlobalPreferences.Services
-{
-    using System.Threading.Tasks;
-    using Domain.Entities;
-    using TanvirArjel.EFCore.GenericRepository;
+﻿using Domain.Entities;
+using TanvirArjel.EFCore.GenericRepository;
 
+namespace Application.GlobalPreferences.Services
+{
     public class GlobalPreferencesService : IGlobalPreferencesService
     {
         private readonly IRepository _repository;

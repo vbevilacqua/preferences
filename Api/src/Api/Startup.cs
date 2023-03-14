@@ -1,9 +1,5 @@
-using System.Security.Claims;
 using Api.StartupServices;
 using Api.Swagger;
-using Infrastructure.Auth0;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Api
 {

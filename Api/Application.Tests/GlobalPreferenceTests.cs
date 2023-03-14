@@ -1,17 +1,13 @@
+using System.Net;
+using Api.Tests.ApplicationFactory;
+using Api.Tests.Extensions;
+using Api.Tests.Helpers;
 using Application.GlobalPreferences.Commands;
 using Application.GlobalPreferences.Queries;
+using FluentAssertions;
 
 namespace Api.Tests
 {
-    using Api;
-    using Api.Tests.ApplicationFactory;
-    using FluentAssertions;
-    using Newtonsoft.Json;
-    using Api.Tests.Extensions;
-    using System.Net;
-    using Api.Tests.Helpers;
-    using Domain.Exceptions;
-
     [TestCaseOrderer("Api.Tests.Helpers.PriorityOrderer", "Api.Tests")]
     public class GlobalPreferenceTests : IClassFixture<PreferencesWebApplicationFactory<Program>>
     {

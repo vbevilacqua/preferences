@@ -1,9 +1,9 @@
-﻿namespace Api.Tests.ApplicationFactory
-{
-    using Domain.Common;
-    using Infrastructure.Persistence;
-    using Microsoft.EntityFrameworkCore;
+﻿using Domain.Common;
+using Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
+namespace Api.Tests.ApplicationFactory
+{
     public class PreferencesIntegrationContext : PreferencesDbContext
     {
         public PreferencesIntegrationContext(ISettings settings) : base(settings)

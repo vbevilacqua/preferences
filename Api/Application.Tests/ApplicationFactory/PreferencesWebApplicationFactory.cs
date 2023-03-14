@@ -1,18 +1,14 @@
-﻿namespace Api.Tests.ApplicationFactory
-{
-    using Infrastructure.Persistence;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Mvc.Authorization;
-    using Microsoft.AspNetCore.Mvc.Testing;
-    using Microsoft.AspNetCore.TestHost;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Diagnostics;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.IdentityModel.Tokens;
-    using TanvirArjel.EFCore.GenericRepository;
+﻿using Infrastructure.Persistence;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using TanvirArjel.EFCore.GenericRepository;
 
+namespace Api.Tests.ApplicationFactory
+{
     public class PreferencesWebApplicationFactory<TProgram>
     : WebApplicationFactory<TProgram> where TProgram : class
     {
