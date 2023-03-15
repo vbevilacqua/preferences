@@ -29,7 +29,7 @@ URL: http://localhost:5050/browser/
 Credentials:
 - User: admin@admin.com
 - Password: root
-  Architecture
+  
 
 
 ## Clean Architecture
